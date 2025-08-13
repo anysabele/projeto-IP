@@ -12,7 +12,7 @@ TELA = pygame.display.set_mode((LARGURA, ALTURA))  # Cria a janela do jogo
 pygame.display.set_caption("Seis Tiros no Oeste")  # Título da janela
 RELOGIO = pygame.time.Clock()  # Controla a velocidade do jogo
 FONTE = pygame.font.SysFont("arial", 40)  # Fonte para textos
-ABATES = 0  # Contador de abates (não usado diretamente)
+PONTOS = 0  # Contador de Pontos
 VIDAS = 3  # Vidas iniciais (não usado diretamente)
 
 # Carrega e redimensiona a imagem do coração (vida)
@@ -43,13 +43,13 @@ class Cowboy:
     def mover(self, teclas):
         # Move o cowboy baseado nas teclas pressionadas
         # Setas ou WASD para movimentação
-        if teclas[pygame.K_UP] and self.y > 0:  # Move para cima
+        if teclas[pygame.K_UP] and self.y > 0:
             self.y -= self.velocidade
-        if teclas[pygame.K_DOWN] and self.y < ALTURA - self.altura:  # Move para baixo
+        if teclas[pygame.K_DOWN] and self.y < ALTURA - self.altura:
             self.y += self.velocidade
-        if teclas[pygame.K_LEFT] and self.x > 0:  # Move para esquerda
+        if teclas[pygame.K_LEFT] and self.x > 0:
             self.x -= self.velocidade
-        if teclas[pygame.K_RIGHT] and self.x < LARGURA - self.largura:  # Move para direita
+        if teclas[pygame.K_RIGHT] and self.x < LARGURA - self.largura:
             self.x += self.velocidade
 
         # Teclas WASD (alternativas)
@@ -66,42 +66,43 @@ class Cowboy:
         # Verifica se pode levar dano (não está no tempo de invencibilidade)
         agora = pygame.time.get_ticks()
         if agora - self.ultimo_dano >= self.invencibilidade:
-            self.vidas -= 1  # Perde uma vida
-            self.ultimo_dano = agora  # Marca o momento do dano
+            self.vidas -= 1
+            self.ultimo_dano = agora
 
     def atirar(self):
         # Dispara um novo projétil se o intervalo entre tiros foi respeitado
         tempo_atual = pygame.time.get_ticks()
         if tempo_atual - self.ultimo_tiro >= self.intervalo_tiro:
-            self.projeteis.append([self.x + self.largura, self.y + self.altura // 2])  # Adiciona novo tiro
-            self.ultimo_tiro = tempo_atual  # Marca o momento do tiro
+            self.projeteis.append([self.x + self.largura, self.y + self.altura // 2])
+            self.ultimo_tiro = tempo_atual
 
     def atualizar_projeteis(self):
         # Move os tiros e remove os que saíram da tela
         nova_lista = []
         for tiro in self.projeteis:
-            tiro[0] += self.velocidade_tiro  # Move o tiro para frente
-            if tiro[0] < LARGURA:  # Se ainda está na tela
+            tiro[0] += self.velocidade_tiro
+            if tiro[0] < LARGURA:
                 nova_lista.append(tiro)
-        self.projeteis = nova_lista  # Atualiza a lista de tiros
+        self.projeteis = nova_lista
 
     def desenhar(self):
         # Desenha o cowboy, seus tiros, vidas e contador de abates
         self.cowboy_atirando_img.update()
         TELA.blit(self.cowboy_atirando_img.image, (self.x, self.y))  # Imagem do cowboy
-        for tiro in self.projeteis:  # Desenha todos os tiros
-            pygame.draw.rect(TELA, (0, 0, 0), (tiro[0] + 10, tiro[1] + 22, 10, 5))
-        for v in range(self.vidas):  # Desenha as vidas (corações)
+        for tiro in self.projeteis:
+            pygame.draw.rect(TELA, (0, 0, 0), (tiro[0], tiro[1], 10, 5))
+        for v in range(self.vidas):
+
             TELA.blit(coracao_img, (10 + v * 35, 10))
-        
-        # Mostra quantos inimigos foram abatidos
-        texto = FONTE.render(f"Abates: {self.abates}", True, (0, 0, 0))
+
+        # Mostra a quantidade de pontos
+        texto = FONTE.render(f"Pontos: {self.pontos}", True, (0, 0, 0))
         TELA.blit(texto, (600, 0))
 
     def get_rect(self):
         # Retorna um retângulo que representa a área do cowboy (para colisões)
         return pygame.Rect(self.x, self.y, self.largura, self.altura)
-   
+    
 class Inimigo:
     def __init__(self, cor, velocidade_x, intervalo_respawn):
         # Configurações iniciais do inimigo
@@ -116,8 +117,8 @@ class Inimigo:
         self.velocidade_tiro = 10  # Velocidade dos tiros
         self.intervalo_tiro = 200  # Tempo entre tiros
         self.ultimo_tiro = 0  # Quando atirou pela última vez
-        self.largura = 40  # Largura do inimigo
-        self.altura = 40  # Altura do inimigo
+        self.largura = 50  # Largura do inimigo
+        self.altura = 50  # Altura do inimigo
         self.bandido_andando_img = sprites.bandido_andando  # Imagem andando
         self.bandido_atacando_img = sprites.bandido_tnt  # Imagem atacando
 
@@ -125,48 +126,48 @@ class Inimigo:
         # Faz o inimigo aparecer se for a hora
         tempo_atual = pygame.time.get_ticks()
         if not self.ativo and tempo_atual >= self.respawn:
-            self.posicao = [randint(800, 900), randint(50, 550)]  # Posição aleatória
-            self.velocidade_y = randint(-2, 2) or 1  # Velocidade vertical aleatória
-            self.ativo = True  # Agora está ativo
+            self.posicao = [randint(800, 900), randint(50, 550)] # Posição aleatória
+            self.velocidade_y = randint(-2, 2) or 1 # Velocidade vertical aleatória
+            self.ativo = True
 
     def mover(self, cowboy):
         # Move o inimigo e verifica colisões com bordas
         if self.ativo:
-            # Movimento horizontal (para esquerda)
+            # Movimento X (horizontal)
             self.posicao[0] -= self.velocidade_x
-            
-            # Movimento vertical (quica nas bordas)
+
+            # Movimento Y com ricochete
             self.posicao[1] += self.velocidade_y
             if self.posicao[1] <= 0 or self.posicao[1] >= ALTURA - self.altura:
-                self.velocidade_y *= -1  # Inverte a direção
+                self.velocidade_y *= -1
 
-            # Se sair pela esquerda, causa dano ao cowboy
+            # Se encostar na borda esquerda
             if self.posicao[0] <= 0:
-                cowboy.vidas -= 1  # Cowboy perde vida
-                self.ativo = False  # Inimigo desaparece
-                self.projeteis.clear()  # Limpa seus tiros
+                self.ativo = False
+                self.projeteis.clear()
                 min_t, max_t = self.intervalo
-                self.respawn = pygame.time.get_ticks() + randint(min_t, max_t)  # Marca novo respawn
+                self.respawn = pygame.time.get_ticks() + randint(min_t, max_t)
 
     def atirar(self):
         # Inimigo dispara tiros
         tempo_atual = pygame.time.get_ticks()
-        if self.posicao and self.posicao[0] < LARGURA - 40:  # Se está na tela
-            if tempo_atual - self.ultimo_tiro >= self.intervalo_tiro:  # Se pode atirar
-                self.projeteis.append([self.posicao[0], self.posicao[1] + self.altura // 2])  # Novo tiro
-                self.ultimo_tiro = tempo_atual  # Marca o momento do tiro
+        if self.posicao and self.posicao[0] < LARGURA - 40:
+            if tempo_atual - self.ultimo_tiro >= self.intervalo_tiro:
+                self.projeteis.append([self.posicao[0], self.posicao[1] + self.altura // 2])
+                self.ultimo_tiro = tempo_atual
 
     def atualizar_projeteis(self, cowboy):
-        # Move e verifica colisões dos tiros do inimigo
         nova_lista = []
         for tiro in self.projeteis:
-            tiro[0] -= self.velocidade_tiro  # Move o tiro (para esquerda)
-            if tiro[0] > 0:  # Se ainda está na tela
+            tiro[0] -= self.velocidade_tiro
+            if tiro[0] > 0:
                 nova_lista.append(tiro)
-            # Verifica se acertou o cowboy
             if pygame.Rect(tiro[0], tiro[1], 10, 5).colliderect(cowboy.get_rect()):
-                cowboy.levar_dano()  # Cowboy leva dano
-        self.projeteis = nova_lista  # Atualiza lista de tiros
+                if pygame.Rect(tiro[0], tiro[1], 10, 5).colliderect(cowboy.get_rect()):
+                    cowboy.levar_dano()
+                    self.projeteis.remove(tiro) #apaga o tiro depois de atingir o cowboy
+
+        self.projeteis = nova_lista
 
     def desenhar(self):
         # Desenha o inimigo e seus tiros
@@ -179,35 +180,49 @@ class Inimigo:
     def get_rect(self):
         # Retorna retângulo para colisões
         return pygame.Rect(self.posicao[0], self.posicao[1], self.largura, self.altura)
-   
-class Drop:
-    def __init__(self, cor, posicao):
-        # Itens que podem ser coletados (power-ups)
-        self.cor = cor  # Cor do drop
-        self.posicao = posicao  # Posição na tela
-        self.raio = 8  # Tamanho do drop
+
+class Bau:
+    def __init__(self, posicao):
+        self.largura = 40
+        self.altura = 40
+        self.posicao = posicao
+        self.ativo = True
 
     def desenhar(self):
-        # Desenha o drop como um círculo
+        if self.ativo:
+            pygame.draw.rect(TELA, (139, 69, 19), (self.posicao[0], self.posicao[1], self.largura, self.altura))  # cor de madeira
+
+    def get_rect(self):
+        return pygame.Rect(self.posicao[0], self.posicao[1], self.largura, self.altura)
+
+class Drop:
+    def __init__(self, cor, efeito, posicao):
+        self.cor = cor
+        self.efeito = efeito
+        self.posicao = posicao
+        self.raio = 8
+
+    def desenhar(self):
         pygame.draw.circle(TELA, self.cor, (self.posicao[0], self.posicao[1]), self.raio)
 
     def get_rect(self):
-        # Retorna retângulo para colisões
         return pygame.Rect(self.posicao[0] - self.raio, self.posicao[1] - self.raio, self.raio*2, self.raio*2)
+
+    
 
 def tela_game_over():
     # Mostra a tela de fim de jogo
     fonte_titulo = pygame.font.Font(None, 80)  # Fonte grande
     fonte_botao = pygame.font.Font(None, 50)  # Fonte menor
-    jogando = True
     
     fundo_original = pygame.image.load('imagens/tela/game_over.jpg').convert()
     fundo_game_over = pygame.transform.scale(fundo_original, (LARGURA, ALTURA))
-    
+
+    jogando = True
     while jogando:
         TELA.blit(fundo_game_over, (0,0))
 
-        # Texto "GAME OVER"
+       # Texto "GAME OVER"
         texto = fonte_titulo.render("GAME OVER", True, (255, 0, 0))
         rect_texto = texto.get_rect(center=(LARGURA // 2, ALTURA // 3))
         
@@ -231,83 +246,113 @@ def tela_game_over():
 
         pygame.display.flip()  # Atualiza a tela
         RELOGIO.tick(60)  # 60 FPS
-   
+    
+    
 # ----------------- FUNÇÃO PRINCIPAL -----------------
 def main():
-    # Configuração inicial do jogo
-    cowboy = Cowboy(100, 100)  # Cria o cowboy
-    # Cria 3 tipos de inimigos com características diferentes
+    cowboy = Cowboy(100, 100)
     inimigos = [
-        Inimigo((255, 0, 0), 2, (1000, 3000)),  # Vermelho - mais rápido
-        Inimigo((0, 255, 0), 3, (2000, 5000)),  # Verde - velocidade média
-        Inimigo((0, 0, 255), 4, (4000, 8000))   # Azul - mais lento
+        Inimigo((255, 0, 0), 2, (1000, 3000)),
+        Inimigo((0, 255, 0), 3, (2000, 5000)),
+        Inimigo((0, 0, 255), 4, (4000, 8000))
     ]
-    drops = []  # Lista de power-ups
-    tipos_drops = [(255, 0, 0), (0, 0, 255)]  # Tipos de power-ups
-    fim_de_jogo = False  # Controla o loop do jogo
 
-    # Loop principal do jogo
+    drops = []
+    tipos_drops = [
+    ((255, 255, 0), "vida"),       #Drop amarelo = +1 vida
+    ((0, 0, 255), "mais_vel"),    #Drop azul = mais velocidade de tiro
+    ((0, 255, 0), "pontos"),      #Drop verde = +5 pontos
+    ((255, 0, 0), "menos_vel")  #Drop vermelho = diminui a velocidade do tiro
+    ]
+
+    baus = []
+    ultimo_spawn_bau = pygame.time.get_ticks()
+    intervalo_spawn_bau = randint(5000, 10000)  #entre 5 e 10 segundos
+    fim_de_jogo = False
+
     while not fim_de_jogo:
-        # Verifica eventos (como fechar a janela)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 fim_de_jogo = True
 
-        # Movimentação e ações do cowboy
-        teclas = pygame.key.get_pressed()  # Teclas pressionadas
-        cowboy.mover(teclas)  # Move o cowboy
-        cowboy.atirar()  # Verifica se atira
-        cowboy.atualizar_projeteis()  # Atualiza tiros do cowboy
+        teclas = pygame.key.get_pressed()
+        cowboy.mover(teclas)
+        cowboy.atirar()
+        cowboy.atualizar_projeteis()
 
-        # Atualiza todos os inimigos
+        # Spawn de baús
+        tempo_atual = pygame.time.get_ticks()
+        if tempo_atual - ultimo_spawn_bau >= intervalo_spawn_bau:
+            x = randint(LARGURA // 2, LARGURA - 100)
+            y = randint(100, ALTURA - 100)
+            baus.append(Bau([x, y]))
+            ultimo_spawn_bau = tempo_atual
+            intervalo_spawn_bau = randint(5000, 10000)
+
+        # Colisão de tiro com baú
+        for bau in baus[:]:
+            if bau.ativo:
+                for tiro in cowboy.projeteis[:]:
+                    if pygame.Rect(tiro[0], tiro[1], 10, 5).colliderect(bau.get_rect()):
+                        cowboy.projeteis.remove(tiro)
+                        baus.remove(bau)
+                        cor, efeito = tipos_drops[randint(0, len(tipos_drops) - 1)]
+                        drops.append(Drop(cor, efeito, [bau.posicao[0] + 20, bau.posicao[1] + 20]))
+                        break  # para de verificar esse baú
+                        
+
+        # Coleta de drops + aplica efeito
+        for drop in drops[:]:
+            drop.desenhar()
+            if cowboy.get_rect().colliderect(drop.get_rect()):
+                drops.remove(drop)
+
+                if drop.efeito == "vida":
+                    cowboy.vidas += 1
+                elif drop.efeito == "mais_vel":
+                    cowboy.intervalo_tiro = max(100, cowboy.intervalo_tiro - 150)
+                elif drop.efeito == "pontos":
+                    cowboy.pontos += 5  
+                elif drop.efeito == "menos_vel":
+                    cowboy.intervalo_tiro += 150
+
+
         for inimigo in inimigos:
-            inimigo.reaparecer()  # Faz aparecer se for hora
-            if inimigo.ativo:  # Se está ativo
-                inimigo.mover(cowboy)  # Move o inimigo
-                inimigo.atirar()  # Inimigo atira
-                inimigo.atualizar_projeteis(cowboy)  # Atualiza tiros do inimigo
+            inimigo.reaparecer()
+            if inimigo.ativo:
+                inimigo.mover(cowboy)
+                inimigo.atirar()
+                inimigo.atualizar_projeteis(cowboy)
 
-                # Verifica colisão dos tiros do cowboy com inimigos
+                # colisão tiro do cowboy com inimigo
                 for tiro in cowboy.projeteis[:]:
                     if pygame.Rect(tiro[0], tiro[1], 10, 5).colliderect(inimigo.get_rect()):
-                        # Inimigo é atingido
                         inimigo.ativo = False
                         inimigo.projeteis.clear()
                         min_t, max_t = inimigo.intervalo
                         inimigo.respawn = pygame.time.get_ticks() + randint(min_t, max_t)
-                        cowboy.abates += 1  # Aumenta contador de abates
-                        cowboy.projeteis.remove(tiro)  # Remove o tiro
-                        
-                        # Chance de 10% de dropar um power-up
-                        if randint(1, 100) <= 10:
-                            cor = tipos_drops[randint(0, len(tipos_drops) - 1)]
-                            drops.append(Drop(cor, inimigo.posicao[:]))
+                        cowboy.pontos += 1
+                        cowboy.projeteis.remove(tiro)
 
-        # Atualiza power-ups
-        for drop in drops[:]:
-            drop.desenhar()  # Desenha o power-up
-            # Verifica se o cowboy pegou
-            if cowboy.get_rect().colliderect(drop.get_rect()):
-                drops.remove(drop)  # Remove o power-up
-                # Melhora a taxa de tiro do cowboy
-                cowboy.intervalo_tiro = max(100, cowboy.intervalo_tiro - 150)
-
-        # Desenha tudo na tela
-        TELA.fill((255, 255, 255))  # Fundo branco
-        cowboy.desenhar()  # Desenha o cowboy
-        for inimigo in inimigos:  # Desenha todos os inimigos
+        # Desenho
+        TELA.fill((255, 255, 255))
+        cowboy.desenhar()
+        for inimigo in inimigos:
             inimigo.desenhar()
+        for bau in baus:
+            bau.desenhar()
+        for drop in drops:
 
-        pygame.display.flip()  # Atualiza a tela
-        RELOGIO.tick(60)  # Mantém 60 FPS
+            drop.desenhar()
+        pygame.display.flip()
+        RELOGIO.tick(60)
 
-        # Verifica se o cowboy perdeu todas as vidas
         if cowboy.vidas <= 0:
-            tela_game_over()  # Mostra tela de game over
-            return main()  # Reinicia o jogo
+            tela_game_over()
+            return main() 
 
-    pygame.quit()  # Fecha o jogo
+    pygame.quit()
 
-# Inicia o jogo quando o arquivo é executado
 if __name__ == "__main__":
     main()
