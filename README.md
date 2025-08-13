@@ -116,6 +116,17 @@ efeitos_sonoros.py: contém a estrutura para salvar e ajustar o volume dos sons.
 
 # Galeria de Imagens 📷
 
+
 <img width="780" height="582" alt="Captura de tela 2025-08-13 185329" src="https://github.com/user-attachments/assets/20aaf4c0-1dae-4770-824a-cf27b9ee7107" />
+
+<img width="790" height="586" alt="Captura de tela 2025-08-13 185344" src="https://github.com/user-attachments/assets/dd6d298b-b837-478b-848a-e9dea9bbeb4e" />
+
+<img width="781" height="581" alt="Captura de tela 2025-08-13 185444" src="https://github.com/user-attachments/assets/4a2cbbc2-df1e-4252-8b08-1bcd5c8afd85" />
+
+<img width="774" height="589" alt="Captura de tela 2025-08-13 185502" src="https://github.com/user-attachments/assets/304936fc-f2ee-4c9a-a025-ff2e8cea59a0" />
+
+<img width="780" height="585" alt="Captura de tela 2025-08-13 185521" src="https://github.com/user-attachments/assets/abf8cdb4-874b-4495-b986-f22269c6e27c" />
+
+<img width="793" height="601" alt="Captura de tela 2025-08-13 185602" src="https://github.com/user-attachments/assets/ba8c519e-2675-4299-b056-46a983e7ee8d" />
 
 
