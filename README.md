@@ -31,7 +31,7 @@ O jogo é ambientado em um cenário 2D onde o jogador controla um personagem pri
 - Inclui efeitos sonoros para eventos importantes.  
 - Conta com tela inicial e tela de *game over*.  
 
-#📌 Instalação e Execução
+# Instalação e Execução 📌
 
 **Para executar o jogo é necessário instalar o Python3 e o Pygame.**
 
