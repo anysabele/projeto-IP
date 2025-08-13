@@ -2,36 +2,40 @@ import pygame
 import random
 from settings import *
 
+BOT_PATH = "imagens/inimigos/"
+
 class Bot:
     def __init__(self, x, y, width=80, height=80, speed=3, lives=3):
         self.rect = pygame.Rect(x, y, width, height)
-        self.speed = speed
+        self.speed = speed * 0.75
         self.lives = lives
 
         # projétil
         self.projectile = None
         self.projectile_speed = 7
 
-        # imagens
-        self.image_idle = pygame.image.load("bot1.png").convert_alpha()
-        self.image_idle = pygame.transform.scale(self.image_idle, (width, height))
-        self.image_walk = pygame.image.load("bot2.png").convert_alpha()
-        self.image_walk = pygame.transform.scale(self.image_walk, (width, height))
-        self.image_shoot = pygame.image.load("bot3.png").convert_alpha()
-        self.image_shoot = pygame.transform.scale(self.image_shoot, (width, height))
-        self.image_destroyed = pygame.image.load("bot4.png").convert_alpha()
-        self.image_destroyed = pygame.transform.scale(self.image_destroyed, (width, height))
+        # Carrega animações
+        self.images_walk = [pygame.image.load(f"{BOT_PATH}bandido_andando{i}.png").convert_alpha() for i in range(1,3)]
+        self.images_walk = [pygame.transform.scale(img, (width, height)) for img in self.images_walk]
 
-        # estado: 'idle', 'walk', 'shoot', 'dead'
+        self.images_shoot = [pygame.image.load(f"{BOT_PATH}bandido_jogando_tnt{i}.png").convert_alpha() for i in range(1,4)]
+        self.images_shoot = [pygame.transform.scale(img, (width, height)) for img in self.images_shoot]
+
+        self.image_dead = pygame.image.load(f"{BOT_PATH}bandido_morto.png").convert_alpha()
+        self.image_dead = pygame.transform.scale(self.image_dead, (width, height))
+
+        # estado
         self.state = 'idle'
-        self.current_image = self.image_idle
+        self.current_image = self.images_walk[0]
+        self.frame_index = 0
+        self.frame_counter = 0
 
         # movimento vertical
-        self.direction_y = random.choice([-1, 1])
+        self.direction_y = random.choice([-1,1])
 
     def update(self, screen_width, screen_height):
         if self.state == 'dead':
-            # não se move se estiver morto
+            self.current_image = self.image_dead
             return
 
         # movimenta horizontal
@@ -53,18 +57,21 @@ class Bot:
                 if self.state != 'dead':
                     self.state = 'idle'
 
-        # atualiza a imagem de acordo com o estado
-        self.update_image()
+        # chance de disparar
+        if not self.projectile and random.random() > 0.65:
+            self.shoot()
 
-    def update_image(self):
-        if self.state == 'idle':
-            self.current_image = self.image_idle
-        elif self.state == 'walk':
-            self.current_image = self.image_walk
-        elif self.state == 'shoot':
-            self.current_image = self.image_shoot
-        elif self.state == 'dead':
-            self.current_image = self.image_destroyed
+        # animação
+        self.animate()
+
+    def animate(self):
+        self.frame_counter += 1
+        if self.frame_counter % 10 == 0:
+            self.frame_index += 1
+            if self.state == 'idle' or self.state == 'walk':
+                self.current_image = self.images_walk[self.frame_index % len(self.images_walk)]
+            elif self.state == 'shoot':
+                self.current_image = self.images_shoot[self.frame_index % len(self.images_shoot)]
 
     def draw(self, screen):
         screen.blit(self.current_image, self.rect)
@@ -75,7 +82,7 @@ class Bot:
         if not self.projectile and self.state != 'dead':
             self.projectile = pygame.Rect(self.rect.left - 10, self.rect.centery - 5, 10, 10)
             self.state = 'shoot'
-            self.update_image()
+            self.frame_index = 0
 
     def check_collision_with_hero(self, hero):
         if self.projectile and self.projectile.colliderect(hero.rect):
@@ -83,15 +90,13 @@ class Bot:
             self.projectile = None
             if self.state != 'dead':
                 self.state = 'idle'
-                self.update_image()
 
     def hit(self):
-        """Reduz vida e retorna True se morrer"""
         if self.state == 'dead':
             return False
         self.lives -= 1
         if self.lives <= 0:
             self.state = 'dead'
-            self.update_image()
+            self.current_image = self.image_dead
             return True
         return False

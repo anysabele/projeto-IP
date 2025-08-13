@@ -1,23 +1,34 @@
 import pygame
 
+# Caminho base para imagens dos objetos
+OBJ_PATH = "imagens/objetos/"
+
 class Trunk:
-    def __init__(self, x, y, size=50, type_index=0):
+    def __init__(self, x, y, type_index=0):
         """
-        type_index: 0 → bau1, 1 → bau2, 2 → bau3, 3 → bau4
+        type_index: 0 → bau_aberto, 1 → bau_com_medalha, 2 → bau_com_ouro, 3 → bau_dinamite_explosao
         """
-        self.rect = pygame.Rect(x, y, size, size)
-        self.size = size
+        self.rect = pygame.Rect(x, y, 50, 50)
         self.hits = 0
         self.destroyed = False
         self.type_index = type_index
 
         # Carrega imagens dos baús
         self.images = []
-        for i in range(1, 5):
-            img = pygame.image.load(f"bau{i}.png").convert_alpha()
-            img = pygame.transform.scale(img, (size, size))
-            self.images.append(img)
-        self.current_image = self.images[self.type_index]
+        if type_index == 0:
+            self.images.append(pygame.image.load(f"{OBJ_PATH}bau_aberto.png").convert_alpha())
+        elif type_index == 1:
+            self.images = [pygame.image.load(f"{OBJ_PATH}bau_com_medalha{i}.png").convert_alpha() for i in range(1, 6)]
+        elif type_index == 2:
+            self.images = [pygame.image.load(f"{OBJ_PATH}bau_com_ouro{i}.png").convert_alpha() for i in range(1, 5)]
+        elif type_index == 3:
+            self.images = [pygame.image.load(f"{OBJ_PATH}bau_dinamite_explosao{i}.png").convert_alpha() for i in range(9)]
+        else:
+            self.images.append(pygame.image.load(f"{OBJ_PATH}bau_fechado.png").convert_alpha())
+
+        # Redimensiona todas para 50x50
+        self.images = [pygame.transform.scale(img, (50, 50)) for img in self.images]
+        self.current_image = self.images[0]
 
     def draw(self, screen):
         if not self.destroyed:
@@ -28,26 +39,29 @@ class Trunk:
         if self.destroyed:
             return False
         self.hits += 1
-        if self.hits >= 2:
+        if self.hits >= len(self.images):
             self.destroyed = True
             return True
-        return False
+        else:
+            self.current_image = self.images[self.hits]
+            return False
 
     def spawn_item(self):
         """
         Cria o item correspondente ao tipo de baú.
-        type_index = 0 → item1 (restaura vida)
-        type_index = 1 → item2
-        type_index = 2 → item3
-        type_index = 3 → item4
+        type_index = 0 → coracao
+        type_index = 1 → medalha_xerif
+        type_index = 2 → ouro
+        type_index = 3 → dinamite
         """
-        item_kind = f"item{self.type_index + 1}"
-        image_path = f"{item_kind}.png"
-        return Item(self.rect.centerx, self.rect.centery, radius=25, kind=item_kind, image_path=image_path)
+        kind_map = {0: "coracao", 1: "medalha_xerif", 2: "ouro", 3: "dinamite"}
+        kind = kind_map.get(self.type_index, "coracao")
+        image_path = f"{OBJ_PATH}{kind}.png"
+        return Item(self.rect.centerx, self.rect.centery, radius=25, kind=kind, image_path=image_path)
 
 
 class Item:
-    def __init__(self, x, y, radius=25, kind='item1', image_path=None):
+    def __init__(self, x, y, radius=25, kind='coracao', image_path=None):
         self.x = x
         self.y = y
         self.radius = radius

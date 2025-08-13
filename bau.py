@@ -1,22 +1,34 @@
 import pygame
 from objetos import Item
+from sprites import Bau_dinamite, Bau_cactoazul, Bau_cactovermelho, Bau_ouro, Bau_medalha
 
 class Bau:
-    def __init__(self, x, y, size=50):
+    def __init__(self, x, y, size=50, type_index=0):
         self.rect = pygame.Rect(x, y, size, size)
         self.size = size
-
-        # Carrega imagens do bau (bau0 a bau4)
-        self.images = [pygame.image.load(f"bau{i}.png").convert_alpha() for i in range(5)]
-        self.images = [pygame.transform.scale(img, (size, size)) for img in self.images]
-
-        self.current_image = self.images[0]  # imagem inicial bau0
         self.hits = 0
         self.destroyed = False
+        self.type_index = type_index
+
+        # seleciona o sprite certo
+        if type_index == 0:
+            self.sprite = Bau_dinamite()
+        elif type_index == 1:
+            self.sprite = Bau_cactoazul()
+        elif type_index == 2:
+            self.sprite = Bau_cactovermelho()
+        elif type_index == 3:
+            self.sprite = Bau_ouro()
+        elif type_index == 4:
+            self.sprite = Bau_medalha()
+        else:
+            self.sprite = Bau_dinamite()
+
+        self.sprite.rect.center = self.rect.center
 
     def draw(self, screen):
         if not self.destroyed:
-            screen.blit(self.current_image, self.rect)
+            screen.blit(self.sprite.image, self.rect)
 
     def hit(self):
         """Chama quando leva um tiro. Retorna um Item ou None."""
@@ -24,22 +36,14 @@ class Bau:
             return None
 
         self.hits += 1
-
-        if self.hits < len(self.images):
-            self.current_image = self.images[self.hits]
-
-            # bau1 libera item de vida
-            if self.hits == 1:
-                return Item(self.rect.centerx, self.rect.centery, color=(0,255,0), kind='vida')
-
-            # bau2,3,4 liberam outros itens
-            elif 2 <= self.hits <= 4:
-                colors_map = [(255,0,255), (0,0,255), (255,255,0)]
-                color = colors_map[self.hits - 2]
-                return Item(self.rect.centerx, self.rect.centery, color=color)
-
-            return None
-        else:
-            # marca como destruído mas não retorna item
+        # quando atinge 2 hits destrói
+        if self.hits >= 2:
             self.destroyed = True
-            return None
+            return self.spawn_item()
+        return None
+
+    def spawn_item(self):
+        """Cria o item correspondente ao tipo de baú."""
+        item_kind = f"item{self.type_index + 1}"
+        image_path = f"imagens/objetos/{item_kind}.png"
+        return Item(self.rect.centerx, self.rect.centery, radius=25, kind=item_kind, image_path=image_path)
