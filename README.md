@@ -114,5 +114,8 @@ efeitos_sonoros.py: contém a estrutura para salvar e ajustar o volume dos sons.
  - uso de GitHub para colaboração e resolução de conflitos no código.
 
 
+# Galeria de Imagens 📷
+
+<img width="780" height="582" alt="Captura de tela 2025-08-13 185329" src="https://github.com/user-attachments/assets/20aaf4c0-1dae-4770-824a-cf27b9ee7107" />
 
 
