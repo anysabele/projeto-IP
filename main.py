@@ -192,7 +192,9 @@ def main():
 
         # HUD: vidas do herói
         for i in range(hero.lives):
-            pygame.draw.circle(screen, (0, 255, 0), (20 + i*25, 20), 12)
+            img_vida = pygame.image.load('imagens/objetos/coracao.png')
+            img_vida = pygame.transform.scale(img_vida, (25, 25))
+            screen.blit(img_vida, (20 + i * 25, 20))
 
         pygame.display.flip()
         clock.tick(FPS)
