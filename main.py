@@ -5,10 +5,14 @@ from settings import *
 from jogador import Hero
 from inimigo import Bot
 from objetos import *
+from efeitos_sonoros import *
 
 
 def tela_inicio(screen):
+    #tocar musica padrao
+    pygame.mixer.music.play(-1)
     # Carrega imagem de fundo
+    
     background = pygame.image.load("imagens/tela/start.jpg").convert()
     background = pygame.transform.scale(background, (WIDTH, HEIGHT))
     
@@ -42,6 +46,8 @@ def tela_inicio(screen):
 
 
 def tela_game_over(screen):
+    #tocar musica padrao
+    pygame.mixer.music.play(-1)
     # Carrega imagem de fundo
     background = pygame.image.load("imagens/tela/game_over.jpg").convert()
     background = pygame.transform.scale(background, (WIDTH, HEIGHT))
@@ -100,6 +106,7 @@ def main():
     pygame.display.set_caption("Seis Tiros no Oeste")
     clock = pygame.time.Clock()
     tela_inicio(screen)
+    pygame.mixer.music.stop()
 
     # Cenário
     background = pygame.image.load("imagens/tela/fundo_jogo.png").convert()
@@ -174,6 +181,7 @@ def main():
 
         # Fim de jogo
         if hero.lives <= 0:
+            game_over_som.play()
             tela_game_over(screen)
             running = False
 

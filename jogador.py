@@ -1,5 +1,6 @@
 import pygame
 from settings import *
+from efeitos_sonoros import *
 
 class Hero:
     def __init__(self, x, y):
@@ -66,7 +67,8 @@ class Hero:
     def shoot(self):
         if not self.projectile:
             self.projectile = pygame.Rect(self.x + self.width, self.y + self.height//2 - 5, 10, 10)
-
+            tiro_som.play()
+            
     def update_projectile(self):
         if self.projectile:
             self.projectile.x += self.projectile_speed
