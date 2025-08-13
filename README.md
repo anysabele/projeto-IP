@@ -39,6 +39,10 @@ Para a instalação do Pygame, pode-se usar o comando:
 
 pip install pygame
 
+# Contribuidores e Funções🖲️
+
+
+
 # como jogar o jogo 🎮
 Pressione a tecla Enter para iniciar o jogo.
 
