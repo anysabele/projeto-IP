@@ -77,7 +77,7 @@ class Cowboy:
         self.cowboy_atirando_img.update()
         TELA.blit(self.cowboy_atirando_img.image, (self.x, self.y))  # Imagem do cowboy
         for tiro in self.projeteis:
-            pygame.draw.rect(TELA, (0, 0, 0), (tiro[0], tiro[1], 10, 5))
+            pygame.draw.rect(TELA, (0, 0, 0), (tiro[0] + 5, tiro[1] + 28, 10, 5))
             pygame.mixer.music.load('sons_jogo/sequencia_tiro_som.wav')
             pygame.mixer.music.set_volume(0.7)
             pygame.mixer.music.play(loops=-1)

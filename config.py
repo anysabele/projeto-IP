@@ -12,5 +12,5 @@ PONTOS = 0  # Contador de Pontos
 VIDAS = 3  # Vidas iniciais (não usado diretamente)
 
 # Carrega e redimensiona a imagem do coração (vida)
-coracao_img = pygame.image.load("imagens/objetos/medalha_xerif.png").convert_alpha()
+coracao_img = pygame.image.load("imagens/objetos/coracao.png").convert_alpha()
 coracao_img = pygame.transform.scale(coracao_img, (30, 30))
