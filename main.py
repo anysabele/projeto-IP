@@ -6,14 +6,103 @@ from jogador import Hero
 from inimigo import Bot
 from objetos import *
 
+
+def tela_inicio(screen):
+    # Carrega imagem de fundo
+    background = pygame.image.load("imagens/tela/start.jpg").convert()
+    background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+    
+    font = pygame.font.Font(None, 50)
+    esperando = True
+
+    while esperando:
+        screen.blit(background, (0, 0))
+
+        fonte = pygame.font.Font("fonte/texas_tango/texas_tango.otf", 30)
+
+        mensagem = "Pressione ENTER para começar"
+
+        # Posições
+        x = WIDTH // 2
+        y = HEIGHT - 100
+
+# Desenha sombra
+        screen.blit(fonte.render(mensagem, True, (0, 0, 0)), (x - fonte.size(mensagem)[0]//2 + 3, y + 3))
+# Desenha texto principal
+        screen.blit(fonte.render(mensagem, True, (255, 215, 0)), (x - fonte.size(mensagem)[0]//2, y))
+        pygame.display.flip()
+
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_RETURN:
+                    esperando = False
+
+
+def tela_game_over(screen):
+    # Carrega imagem de fundo
+    background = pygame.image.load("imagens/tela/game_over.jpg").convert()
+    background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+
+    font = pygame.font.Font(None, 60)
+    small_font = pygame.font.Font(None, 36)
+    esperando = True
+
+    while esperando:
+        screen.blit(background, (0, 0))
+
+        # Fonte principal e pequena
+        fonte = pygame.font.Font("fonte/texas_tango/texas_tango.otf", 60)       # FIM DE JOGO
+        small_font = pygame.font.Font("fonte/texas_tango/texas_tango.otf", 22)  # instruções
+
+# Mensagens
+        mensagem_principal = "FIM DE JOGO"
+        mensagem_instrucao = "Pressione R para reiniciar ou ESC para sair"
+
+# Posições
+        x_principal = WIDTH // 2
+        y_principal = HEIGHT // 3
+        x_instrucao = WIDTH // 2
+        y_instrucao = HEIGHT // 2
+
+# Desenha sombra e texto principal
+        screen.blit(fonte.render(mensagem_principal, True, (0, 0, 0)), 
+            (x_principal - fonte.size(mensagem_principal)[0]//2 + 3, y_principal + 3))
+        screen.blit(fonte.render(mensagem_principal, True, (255, 215, 0)), 
+            (x_principal - fonte.size(mensagem_principal)[0]//2, y_principal))
+
+# Desenha sombra e texto da instrução
+        screen.blit(small_font.render(mensagem_instrucao, True, (0, 0, 0)), 
+            (x_instrucao - small_font.size(mensagem_instrucao)[0]//2 + 2, y_instrucao + 2))
+        screen.blit(small_font.render(mensagem_instrucao, True, (255, 255, 255)), 
+            (x_instrucao - small_font.size(mensagem_instrucao)[0]//2, y_instrucao))
+
+        
+        pygame.display.flip()
+
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_r:
+                    esperando = False
+                    main()
+                if evento.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Hero vs Bots + Trunks/Items + Baús")
+    pygame.display.set_caption("Seis Tiros no Oeste")
     clock = pygame.time.Clock()
+    tela_inicio(screen)
 
     # Cenário
-    background = pygame.image.load("fundo.png").convert()
+    background = pygame.image.load("imagens/tela/fundo_jogo.png").convert()
     background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 
     # Herói
@@ -85,8 +174,9 @@ def main():
 
         # Fim de jogo
         if hero.lives <= 0:
-            print("Game Over!")
+            tela_game_over(screen)
             running = False
+
 
         # --- Desenho ---
         screen.blit(background, (0, 0))
