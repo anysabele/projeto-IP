@@ -24,6 +24,32 @@ Marcus Antônio Cavalcante Oliveira Filho
 
 # Sobre o jogo 🤠🐎
 
+O jogo é ambientado em um cenário 2D onde o jogador controla um personagem principal que deve coletar diferentes tipos de objetos enquanto evita obstáculos e inimigos.  
+- Possui pelo menos 3 tipos de objetos coletáveis.  
+- Exibe na tela a contagem de cada objeto coletado.  
+- Inclui efeitos sonoros para eventos importantes.  
+- Conta com tela inicial e tela de *game over*.  
+
+# como jogar o jogo 🎮
+Pressione a tecla Enter para iniciar o jogo.
+
+-use as setas do teclado para mover o personagem:
+
+-seta para cima: move o personagem para cima (vertical).
+
+-seta para baixo: move o personagem para baixo (vertical).
+
+-seta para a direita: move o personagem para a direita (horizontal).
+
+-seta para a esquerda: move o personagem para a esquerda (horizontal).
+
+-pressione a tecla Espaço para atirar.
+
+-quando o personagem morre:
+
+-pressione R para reiniciar o jogo.
+
+-pressione Esc para fechar o jogo.
 
 # Arquitetura 💻
 
@@ -45,25 +71,34 @@ efeitos_sonoros.py: contém a estrutura para salvar e ajustar o volume dos sons.
 
 # Ferramentas, bibliotecas, frameworks 🧲
 ---- Ferramentas ---
-- VScode: 
+- VScode: ditor de cordigo usado para escrever o codigo para o projeto.
 - Github: escolhido por ser mais pratico para compartilhar o codigo com a equipe.
 - 
 
 ---- Bibliotecas ----
-- pygame:
+- pygame: usada para cirar o ambiente 2d,gerenciar graficos,eventos e sons.
 
 # Conceitos vistos em aula 👨🏻‍💻
 
-- funções:
-- listas:
+- funções: para modularizar e organizar a logica do jogo.
+- listas: para armazenar e manipular objetos e sprites.
+- estruturas de controle: loops e condicionais para fluxo do jogo.
 
 # Desafios, erros e lições aprendidas ♥️
 
 - Qual foi o maior erro cometido durante o projeto? Como vocês lidaram com ele?
+  - maior erro: problemas na detecção de colisões, que causavam coleta incorreta dos objetos.
+  - solução: ajustamos a lógica de colisão e implementamos testes para validar.
 
 - Qual foi o maior desafio enfrentado durante o projeto? Como vocês lidaram com ele?
+- maior desafio: integrar imagens , sons e animações de forma sincrona sem perda de desempenho.
+- solução: otimizamos o caregamento de recursos e otimizamos o loop principal do jogo.
+  
 
 - Quais as lições aprendidas durante o projeto?
+- importância de dividir o trabalho com clareza.  
+- necessidade de organizar o código desde o início para evitar retrabalho.  
+ - uso de GitHub para colaboração e resolução de conflitos no código.
 
 
 
