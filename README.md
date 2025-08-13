@@ -24,11 +24,20 @@ Marcus Antônio Cavalcante Oliveira Filho
 
 # Sobre o jogo 🤠🐎
 
-O jogo é ambientado em um cenário 2D onde o jogador controla um personagem principal que deve coletar diferentes tipos de objetos enquanto evita obstáculos e inimigos.  
+O jogo é ambientado em um cenário 2D onde o jogador controla um personagem principal que deve coletar diferentes tipos de objetos enquanto evita obstáculos e inimigos.O jogo é um jogo do estilo shooter com um tema de faoreste onde o peronagem principal jogavel e um cowboy que precisa atirar nos inimigos que atiram nele e conforme o cowboy for acertando os adversarios surge um bau no qual quando se atira nele vem um item coletavel que o jogador precisa buscar para adicionar na sua coleção. 
+
 - Possui pelo menos 3 tipos de objetos coletáveis.  
 - Exibe na tela a contagem de cada objeto coletado.  
 - Inclui efeitos sonoros para eventos importantes.  
 - Conta com tela inicial e tela de *game over*.  
+
+📌 Instalação e Execução
+
+**Para executar o jogo é necessário instalar o Python3 e o Pygame.**
+
+Para a instalação do Pygame, pode-se usar o comando:
+
+pip install pygame
 
 # como jogar o jogo 🎮
 Pressione a tecla Enter para iniciar o jogo.
