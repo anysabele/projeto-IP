@@ -24,45 +24,16 @@ Marcus Antônio Cavalcante Oliveira Filho
 
 # Sobre o jogo 🤠🐎
 
-O jogo é ambientado em um cenário 2D onde o jogador controla um personagem principal que deve coletar diferentes tipos de objetos enquanto evita obstáculos e inimigos.O jogo é um jogo do estilo shooter com um tema de faoreste onde o peronagem principal jogavel e um cowboy que precisa atirar nos inimigos que atiram nele e conforme o cowboy for acertando os adversarios surge um bau no qual quando se atira nele vem um item coletavel que o jogador precisa buscar para adicionar na sua coleção. 
+Nosso jogo é um "Shooter" no qual o protagonista, um cowboy, pode se mover em todas as direções (frente, trás, cima e lados) e atirar horizontalmente para eliminar os inimigos (bandidos). Os bandidos avançam em direção ao cowboy enquanto também disparam.
+Cada inimigo leva 3 tiros para ser derrotado e, ao morrer, solta um baú com itens aleatórios. Para abrir o baú, é necessário atirar nele duas vezes e, em seguida, se aproximar para coletar o item. Os itens coletados são exibidos no canto superior esquerdo da tela, abaixo dos corações que representam a vida do cowboy.
 
-- Possui pelo menos 3 tipos de objetos coletáveis.  
-- Exibe na tela a contagem de cada objeto coletado.  
-- Inclui efeitos sonoros para eventos importantes.  
-- Conta com tela inicial e tela de *game over*.  
-
-# Instalação e Execução 📌
-
-**Para executar o jogo é necessário instalar o Python3 e o Pygame.**
-
-Para a instalação do Pygame, pode-se usar o comando:
-
-pip install pygame
-
-# Contribuidores e Funções🖲️
-
-
-
-# como jogar o jogo 🎮
-Pressione a tecla Enter para iniciar o jogo.
-
--use as setas do teclado para mover o personagem:
-
--seta para cima: move o personagem para cima (vertical).
-
--seta para baixo: move o personagem para baixo (vertical).
-
--seta para a direita: move o personagem para a direita (horizontal).
-
--seta para a esquerda: move o personagem para a esquerda (horizontal).
-
--pressione a tecla Espaço para atirar.
-
--quando o personagem morre:
-
--pressione R para reiniciar o jogo.
-
--pressione Esc para fechar o jogo.
+----- Como jogar? ---
+- Pressione ENTER para começar o jogo
+- Use as teclas de seta (↑ ↓ ← →) para mover o cowboy em todas as direções.
+- Pressione ESPAÇO para atirar.
+- Aproxime-se do objeto dropado para coletar.
+- Em caso de game over, pressione R para reiniciar o jogo ou ESC para fechar a janela.
+ 
 
 # Arquitetura 💻
 
@@ -84,49 +55,39 @@ efeitos_sonoros.py: contém a estrutura para salvar e ajustar o volume dos sons.
 
 # Ferramentas, bibliotecas, frameworks 🧲
 ---- Ferramentas ---
-- VScode: ditor de cordigo usado para escrever o codigo para o projeto.
+- VScode: escolhido por ser o editor de código que a equipe possui mais familiarização ate agora.  
 - Github: escolhido por ser mais pratico para compartilhar o codigo com a equipe.
-- 
 
 ---- Bibliotecas ----
-- pygame: usada para cirar o ambiente 2d,gerenciar graficos,eventos e sons.
+- Pygame: escolhida por ser a biblioteca mais simples e focada no desenvolvimento de jogos 2D, sendo a melhor opção para nossa equipe, que está iniciando na programação de jogos..
+- Sys: escolhida para eventos como "fechar o jogo".
+- Random: escolhida para gerar numeros aleátorios de coordenadas em que os cowboys aparecem na tela.
+
+---- Frameworks ---
+- Não foram ultilizadas.
 
 # Conceitos vistos em aula 👨🏻‍💻
 
-- funções: para modularizar e organizar a logica do jogo.
-- listas: para armazenar e manipular objetos e sprites.
-- estruturas de controle: loops e condicionais para fluxo do jogo.
+- Funções: ultilizadas para organizar a dinamica de cada personagem e objetos.
+- Listas: usamos listas dentro das funções para salvar tiros, itens coletados e vida dos personagens.
+- Laços de repetição: ultilizamos para o loop principal do jogo e para implementar algo de acordo com as ações feitas e sofridas pelos personagens.
+- Comandos condicionais: usamos para monitorar as ações dos personagens e ações sofridas.
 
 # Desafios, erros e lições aprendidas ♥️
 
 - Qual foi o maior erro cometido durante o projeto? Como vocês lidaram com ele?
-  - maior erro: problemas na detecção de colisões, que causavam coleta incorreta dos objetos.
-  - solução: ajustamos a lógica de colisão e implementamos testes para validar.
+  - Começar algo sem entender completamente como funciona. Recomeçamos quase do zero.
 
 - Qual foi o maior desafio enfrentado durante o projeto? Como vocês lidaram com ele?
-- maior desafio: integrar imagens , sons e animações de forma sincrona sem perda de desempenho.
-- solução: otimizamos o caregamento de recursos e otimizamos o loop principal do jogo.
+  - O maior desafio foi a separação do código em pastas, pois cada membro desenvolvia uma parte do jogo separadamente, causando confusão na integração. Para resolver, consolidamos tudo em uma única pasta, organizamos o código de forma clara e só então o dividimos novamente em módulos, garantindo que todas as partes funcionassem juntas corretamente. Além disso, o curto prazo para desenvolvimento e os compromissos com outras disciplinas nos impediram de implementar todos os recursos planejados inicialmente para o jogo, mas pretendemos adicioná-los e aprimorá-lo no futuro.
+
   
-
 - Quais as lições aprendidas durante o projeto?
-- importância de dividir o trabalho com clareza.  
-- necessidade de organizar o código desde o início para evitar retrabalho.  
- - uso de GitHub para colaboração e resolução de conflitos no código.
-
+  - Entender por completo algo para depois reproduzi-lo. 
 
 # Galeria de Imagens 📷
 
 
-<img width="780" height="582" alt="Captura de tela 2025-08-13 185329" src="https://github.com/user-attachments/assets/20aaf4c0-1dae-4770-824a-cf27b9ee7107" />
 
-<img width="790" height="586" alt="Captura de tela 2025-08-13 185344" src="https://github.com/user-attachments/assets/dd6d298b-b837-478b-848a-e9dea9bbeb4e" />
-
-<img width="781" height="581" alt="Captura de tela 2025-08-13 185444" src="https://github.com/user-attachments/assets/4a2cbbc2-df1e-4252-8b08-1bcd5c8afd85" />
-
-<img width="774" height="589" alt="Captura de tela 2025-08-13 185502" src="https://github.com/user-attachments/assets/304936fc-f2ee-4c9a-a025-ff2e8cea59a0" />
-
-<img width="780" height="585" alt="Captura de tela 2025-08-13 185521" src="https://github.com/user-attachments/assets/abf8cdb4-874b-4495-b986-f22269c6e27c" />
-
-<img width="793" height="601" alt="Captura de tela 2025-08-13 185602" src="https://github.com/user-attachments/assets/ba8c519e-2675-4299-b056-46a983e7ee8d" />
 
 
