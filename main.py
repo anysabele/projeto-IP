@@ -13,14 +13,24 @@ def tela_inicio(screen):
     background = pygame.image.load("imagens/tela/start.jpg").convert()
     background = pygame.transform.scale(background, (WIDTH, HEIGHT))
     
+    fonte_nome = pygame.font.Font("fonte/rio_grande/RioGrande.ttf", 60)
     fonte = pygame.font.Font("fonte/texas_tango/texas_tango.otf", 30)
+    nome_jogo = "Seis Tiros no Oeste"
     mensagem = "Pressione ENTER para começar"
     esperando = True
 
     while esperando:
         screen.blit(background, (0, 0))
+        nome_x = WIDTH // 3
+        nome_y = HEIGHT// 3
         x = WIDTH // 2
         y = HEIGHT - 100
+
+        # Sombra
+        screen.blit(fonte_nome.render(nome_jogo, True, (0, 0, 0)), (nome_x - fonte.size(nome_jogo)[0]//2 + 3, nome_y + 3))
+        # Texto
+        screen.blit(fonte_nome.render(nome_jogo, True, (255, 215, 0)), (nome_x - fonte.size(nome_jogo)[0]//2, nome_y))
+        pygame.display.flip()
 
         # Sombra
         screen.blit(fonte.render(mensagem, True, (0, 0, 0)), (x - fonte.size(mensagem)[0]//2 + 3, y + 3))
