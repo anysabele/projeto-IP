@@ -10,7 +10,7 @@ O projeto de Introdução à Programação consiste em criar um sistema interati
 Anysabele de Paula Barbosa Santos
 - Cursando Inteligência Artificial
 - Eventos
-- Sprites e sons.
+- Sprites e sons
   
 Maria Luiza Cunha de Barros
 - Cursando Ciência da Computação
