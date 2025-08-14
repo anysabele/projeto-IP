@@ -95,7 +95,9 @@ def main():
     clock = pygame.time.Clock()
     tela_inicio(screen)
     pygame.mixer.music.stop()
-
+    last_spawn_time = pygame.time.get_ticks()
+    spawn_interval = 2000  # tempo entre spawns: 2000 ms = 2 segundos
+    playing = True
     # Cenário
     background = pygame.image.load("imagens/tela/fundo_jogo.png").convert()
     background = pygame.transform.scale(background, (WIDTH, HEIGHT))
@@ -122,8 +124,17 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+        current_time = pygame.time.get_ticks()
+        # Se o herói estiver vivo, spawn contínuo de bots        
+        if playing and current_time - last_spawn_time >= spawn_interval:
+            last_spawn_time = current_time
+            x = random.randint(WIDTH, WIDTH + 300)
+            y = random.randint(0, HEIGHT - 50)
+            bots.append(Bot(x, y))
+        
+
         # Atualizações
-        hero.handle_keys()
+        hero.handle_keys()  
         hero.update_projectile()
 
         # Atualiza bots
@@ -171,6 +182,7 @@ def main():
             game_over_som.play()
             tela_game_over(screen)
             running = False
+
 
         # Desenho
         screen.blit(background, (0,0))
