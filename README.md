@@ -9,18 +9,28 @@ O projeto de Introdução à Programação consiste em criar um sistema interati
 
 Anysabele de Paula Barbosa Santos
 - Cursando Inteligência Artificial
-
+- Eventos
+- Sprites e sons.
+  
 Maria Luiza Cunha de Barros
 - Cursando Ciência da Computação
+- Main
+- Eventos
 
 Reilson Batista da Fonseca
 - Cursando Inteligência Artificial
+- Criativo
+- Eventos
 
 Gabriel da Rocha Feitosa
 - Cursando Ciência da Computação
+- Criativo
+- Eventos
 
 Marcus Antônio Cavalcante Oliveira Filho
 - Cursando Inteligência Artificial
+- Eventos
+- Correção final do código.
 
 # Sobre o jogo 🤠🐎
 
@@ -89,5 +99,8 @@ efeitos_sonoros.py: contém a estrutura para salvar e ajustar o volume dos sons.
 
 
 
-
-
+<img width="793" height="624" alt="tela_inicio" src="https://github.com/user-attachments/assets/1629e30f-7e36-48ab-96b2-74216af2e513" />
+<img width="462" height="309" alt="img3" src="https://github.com/user-attachments/assets/907bd188-9b05-46ce-8a20-4e36530526e5" />
+<img width="630" height="334" alt="img4" src="https://github.com/user-attachments/assets/f49cb275-de1e-4f90-a004-22bd5009d579" />
+<img width="446" height="282" alt="img11" src="https://github.com/user-attachments/assets/8b12f6b6-5c51-4bbd-88c8-3c32fe527840" />
+<img width="<img width="797" height="624" alt="tela_game_over" src="https://github.com/user-attachments/assets/8852a27d-741e-432b-8c77-066f9498c8e8" />
